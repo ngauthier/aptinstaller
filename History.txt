@@ -1,0 +1,4 @@
+=== v0.1.0
+2009-01-14
+
+* Initial Release: Aptinstaller will scan your rails project's aptinstaller configuration file to install packages via apt-get.
