@@ -1,8 +1,0 @@
-History.txt
-Manifest.txt
-README.txt
-Rakefile
-bin/aptinstaller
-aptinstaller.gemspec
-lib/aptinstaller.rb
-lib/aptinstaller/version.rb
