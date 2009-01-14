@@ -1,22 +1,27 @@
-Gem::Specification.new do |s|
-  s.name     = "aptinstaller"
-  s.version  = "0.1.0"
-  s.date     = "2009-01-13"
-  s.summary  = "Automatic package install for rails projects in ubuntu."
-  s.email    = "nick@smartlogicsolutions.com"
-  s.homepage = "http://github.com/ngauthier/aptinstaller"
-  s.description = "Aptinstaller automatically installs packages from the ubuntu repositories when they are listed as dependencies in your rails project."
-  s.has_rdoc = true
-  s.authors  = ["Nick Gauthier"]
-  s.files    = [
-    "History.txt", "Manifest.txt", "README.txt", "Rakefile", "bin/aptinstaller",
-    "aptinstaller.gemspec", "lib/aptinstaller.rb", "lib/aptinstaller/version.rb"
-  ] 
-  s.executables = ["aptinstaller"]
-  s.rdoc_options = ["--main", "README.txt"]
-  s.extra_rdoc_files = ["History.txt", "Manifest.txt", "README.txt"]
-end
+# -*- encoding: utf-8 -*-
 
-Rake::GemPackageTask.new(spec) do |pkg|
-  pkg.need_tar = true
+Gem::Specification.new do |s|
+  s.name = %q{aptinstaller}
+  s.version = "0.1.0"
+
+  s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
+  s.authors = ["Nick Gauthier"]
+  s.date = %q{2009-01-14}
+  s.description = %q{README.txt}
+  s.email = %q{nick@smartlogicsolutions.com}
+  s.files = ["VERSION.yml", "History.txt", "README.txt", "Manifest.txt", "bin/aptinstaller", "lib/aptinstaller.rb", "lib/aptinstaller", "lib/aptinstaller/version.rb"]
+  s.homepage = %q{http://github.com/ngauthier/aptinstaller}
+  s.require_paths = ["lib"]
+  s.rubygems_version = %q{1.3.1}
+  s.summary = %q{TODO}
+
+  if s.respond_to? :specification_version then
+    current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
+    s.specification_version = 2
+
+    if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
+    else
+    end
+  else
+  end
 end
