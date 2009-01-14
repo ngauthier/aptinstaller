@@ -1,4 +1,4 @@
 #!/usr/bin/env ruby
-
-puts "Aptinstaller"
-
+require 'rubygems'
+require 'aptinstaller'
+AptInstaller.autopkg_install(ARGV[0])

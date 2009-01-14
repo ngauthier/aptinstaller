@@ -3,7 +3,34 @@ require 'yaml'
 class AptInstaller
 
   def self.autopkg(opts = {})
-    config_file = opts.delete(:config)
+    config_yaml = self.read_yaml_file(opts[:config])
+    packages = self.detect_packages_to_install(config_yaml['packages'])
+    if packages.size > 0
+      $stderr.write "\nThe following packages are required by this program but not installed:\n\n"
+      packages.each do |package|
+        $stderr.write "\t* "+package['executable']
+        $stderr.write " (provided by package \"#{package['package']}\")" if package['package']
+        $stderr.write "\n"
+      end
+      $stderr.write "\nYou can install them by running \"aptinstaller\" in the root of your project\n\n"
+      exit(1)
+    end
+  end
+
+  def self.autopkg_install(rails_root = '.')
+    rails_root ||= '.' # in case they pass in nil
+    config_yaml = self.read_yaml_file(File.join(rails_root, 'config', 'aptinstaller.yml'))
+    packages = self.detect_packages_to_install(config_yaml['packages'])
+    if packages.size > 0
+      exec("apt-get install #{packages.collect{|p| p['package'] || p['executable'] }.join(" ")}")
+    else
+      puts "All dependencies are installed"
+    end
+  end
+
+  private
+
+  def self.read_yaml_file(config_file)
     raise "Error reading config file, no :config parameter specified" unless config_file
     begin
       begin
@@ -19,21 +46,16 @@ class AptInstaller
     rescue => ex
       raise "Error parsing YAML file: #{ex.to_s}"
     end
-    errors = []
-    config_yaml['packages'].each do |package|
+    config_yaml
+  end
+
+  def self.detect_packages_to_install(packages)
+    not_installed = []
+    packages.each do |package|
       exec = package['executable']
       pkg = package['package']
-      errors.push(package) if `which #{exec}`.size == 0
+      not_installed.push(package) if `which #{exec}`.size == 0
     end
-    if errors.size > 0
-      $stderr.write "\nThe following packages are required by this program but not installed:\n\n"
-      errors.each do |package|
-        $stderr.write "\t* "+package['executable']+"\n"
-      end
-      $stderr.write "\nYou can install them by running:\n"
-      $stderr.write "\tapt-get install "
-      $stderr.write errors.collect{|p| p['package'] || p['executable']}.join(" ")
-      $stderr.write "\n\nor by running \"aptinstaller\" in the root of your project\n\n"
-      exit(1)
-    end
+    not_installed
+  end
 end
