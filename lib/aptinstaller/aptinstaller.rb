@@ -23,6 +23,7 @@ class AptInstaller
     packages = self.detect_packages_to_install(config_yaml['packages'])
     if `which apt-get`.size == 0
       $stderr.write "I'm sorry, but we currently only support apt based package systems\n"
+      $stderr.write "You will have to install the packages yourself\n"
       $stderr.flush
       exit(1)
     end
