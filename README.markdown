@@ -39,3 +39,5 @@ from boot.rb):
     rake gem
     sudo gem install pkg/aptinstaller-x.y.z.gem
 
+## Other Notes
+This gem uses Jeweler. HighFive@technicalpickles!
