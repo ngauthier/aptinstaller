@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.description = %q{README.txt}
   s.email = %q{nick@smartlogicsolutions.com}
   s.executables = ["aptinstaller"]
-  s.files = ["bin/aptinstaller"]
+  s.files = ["VERSION.yml", "History.txt", "README.txt", "Manifest.txt", "bin/aptinstaller", "lib/aptinstaller.rb", "lib/aptinstaller", "lib/aptinstaller/aptinstaller.rb"]
   s.homepage = %q{http://github.com/ngauthier/aptinstaller}
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.1}
