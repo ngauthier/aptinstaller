@@ -13,13 +13,8 @@ Put something like this in config/aptinstaller.yml:
 
     ---
     packages:
-      - executable: firefox
-      - executable: MP4Box
-        package: gpac
-
-The executable field is the name of the executable (i.e. $ MP4Box). If the package's name in the
-repositories is different from the executable, specify the package name with the "package"
-field (i.e. "gpac" which provides the MP4Box executable).
+      - name: firefox
+      - name: gpac
 
 ### Add to Preinitializer
 

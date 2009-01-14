@@ -5,14 +5,19 @@ class AptInstaller
   def self.autopkg(opts = {})
     config_yaml = self.read_yaml_file(opts[:config])
     packages = self.detect_packages_to_install(config_yaml['packages'])
-    if packages.size > 0
+    if packages[:not_installed].size > 0
       $stderr.write "\nThe following packages are required by this program but not installed:\n\n"
-      packages.each do |package|
-        $stderr.write "\t* "+package['executable']
-        $stderr.write " (provided by package \"#{package['package']}\")" if package['package']
-        $stderr.write "\n"
+      packages[:not_installed].each do |package|
+        $stderr.write "\t* "+package['name']+"\n"
       end
-      $stderr.write "\nYou can install them by running \"aptinstaller\" in the root of your project\n\n"
+    end
+    if packages[:out_of_date].size > 0
+
+    end
+
+    if packages[:not_installed].size + packages[:out_of_date].size > 0
+      $stderr.write "\nYou can install and upgrade automatically by "
+      $stderr.write "running \"aptinstaller\" in the root of your project\n\n"
       exit(1)
     end
   end
@@ -27,9 +32,14 @@ class AptInstaller
       $stderr.flush
       exit(1)
     end
-    if packages.size > 0
-      exec("apt-get install #{packages.collect{|p| p['package'] || p['executable'] }.join(" ")}")
-    else
+    if packages[:not_installed].size > 0
+      pkg_str = packages[:not_installed].collect{|p| p['name']}.join(" ")
+      system "apt-get install #{pkg_str}"
+    end
+    if packages[:out_of_date].size > 0
+      
+    end
+    if packages[:not_installed].size + packages[:out_of_date].size == 0
       puts "All dependencies are installed"
     end
   end
@@ -57,11 +67,26 @@ class AptInstaller
 
   def self.detect_packages_to_install(packages)
     not_installed = []
+    out_of_date = []
     packages.each do |package|
-      exec = package['executable']
-      pkg = package['package']
-      not_installed.push(package) if `which #{exec}`.size == 0
+      not_installed.push(package) unless self.detect_package(package)
+      out_of_date.push(package) unless self.verify_version(package)
     end
-    not_installed
+    {:not_installed => not_installed, :out_of_date => out_of_date}
+  end
+
+  def self.detect_package(package)
+    info = `aptitude show #{package['name']}`.split("\n")
+    meta = {}
+    info.each{|i|
+      i = i.split(": ")
+      meta[i[0]] = i[1]
+    }
+    return meta['State'] == 'installed'
+  end
+
+  def self.verify_version(package)
+    pkg_name = package['name']
+    return true if package['version'] == nil
   end
 end
