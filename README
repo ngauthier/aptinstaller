@@ -1,19 +1,15 @@
-= aptinstaller
+# Aptinstaller: automatically install apt package dependencies
 
-* http://github.com/ngauthier/aptinstaller/tree/master
-
-== DESCRIPTION:
+## Description
 This gem installs packages through apt-get in a similar manner as geminstaller installs gems.
 
-== Usage:
+## Usage
 aptinstaller [/full/path/to/rails/project/root]
 
-== INCOMPLETE ==
-* Currently it doesn't do anything. I'm just trying to rake the gem.
+## Configuration
 
-== SYNOPSIS:
-
-Put this in config/aptinstaller.yml:
+### Add a Config File
+Put something like this in config/aptinstaller.yml:
 
 ---
 packages:
@@ -25,6 +21,8 @@ The executable field is the name of the executable (i.e. $ MP4Box). If the packa
 repositories is different from the executable, specify the package name with the "package"
 field (i.e. "gpac" which provides the MP4Box executable).
 
+### Add to Preinitializer
+
 Then in config/preinitializer.rb (create it if it doesn't exist, it's pulled automatically
 from boot.rb):
 
@@ -32,12 +30,12 @@ require 'rubygems'
 require 'aptinstaller'
 AptInstaller.autopkg(:config => 'config/aptinstaller.yml')
 
-== REQUIREMENTS:
+## Installation
 
-* a rails app that requires apt packages
+### Latest Stable
+sudo gem install ngauthier-aptinstaller
 
-== INSTALL:
-
+### Cutting Edge
 rake gem
-sudo gem install pkg/aptinstaller-0.1.0.gem
+sudo gem install pkg/aptinstaller-x.y.z.gem
 
