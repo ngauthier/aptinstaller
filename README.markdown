@@ -4,7 +4,7 @@
 This gem installs packages through apt-get in a similar manner as geminstaller installs gems.
 
 ## Usage
-    aptinstaller [/full/path/to/rails/project/root]
+    aptinstaller [path/to/rails/project/root]
 
 ## Configuration
 
@@ -36,8 +36,10 @@ from boot.rb):
     sudo gem install ngauthier-aptinstaller
 
 ### Cutting Edge
+    git clone git@github.com:ngauthier/aptinstaller.git aptinstaller
+    cd aptinstaller
     rake gem
-    sudo gem install pkg/aptinstaller-x.y.z.gem
+    sudo gem install pkg/aptinstaller
 
 ## Other Notes
 This gem uses Jeweler. HighFive@technicalpickles!
