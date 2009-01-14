@@ -21,6 +21,11 @@ class AptInstaller
     rails_root ||= '.' # in case they pass in nil
     config_yaml = self.read_yaml_file(File.join(rails_root, 'config', 'aptinstaller.yml'))
     packages = self.detect_packages_to_install(config_yaml['packages'])
+    if `which apt-get`.size == 0
+      $stderr.write "I'm sorry, but we currently only support apt based package systems\n"
+      $stderr.flush
+      exit(1)
+    end
     if packages.size > 0
       exec("apt-get install #{packages.collect{|p| p['package'] || p['executable'] }.join(" ")}")
     else
